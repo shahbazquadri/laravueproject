@@ -25,27 +25,44 @@
             <div class="reg-form" v-if="showregistrationform">
                 <h3>Register yourself</h3>
                 <form method="get" action="">
+                    <div
+                        class="errorinregform"
+                        v-if="errorinregform.length > 0"
+                    >
+                        <ul>
+                            <li
+                                v-for="(error, index) in errorinregform"
+                                :key="index"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </div>
                     <div class="form-group">
                         <label for="my-input">Name</label>
                         <input
+                            v-model="applicantname"
                             id="applicantname"
                             class="form-control"
                             type="text"
-                            name=""
+                            name="applicantname"
                         />
                     </div>
                     <div class="form-group">
                         <label for="my-input">Email</label>
                         <input
+                            v-model="applicantemail"
                             id="applicantemail"
                             class="form-control"
                             type="text"
                             name=""
                         />
                     </div>
+
                     <div class="form-group">
                         <label for="my-input">Mobile</label>
                         <input
+                            v-model="applicantmob"
                             id="applicantmobile"
                             class="form-control"
                             type="text"
@@ -55,6 +72,7 @@
                     <div class="form-group">
                         <label for="my-input">Create password</label>
                         <input
+                            v-model="applicantpass"
                             id="applicantpass"
                             class="form-control"
                             type="text"
@@ -74,6 +92,7 @@
                             style="width: 5rem"
                             href="#"
                             role="button"
+                            v-on:click.prevent="reguser()"
                         >
                             Register
                         </button>
@@ -90,15 +109,17 @@
                     <div class="form-group">
                         <label for="my-input">Enter mobile no</label>
                         <input
+                            v-model="enno"
                             id="enmobno"
                             class="form-control"
-                            type="text"
+                            type="number"
                             name=""
                         />
                     </div>
                     <div class="form-group">
                         <label for="my-input">Enter Password</label>
                         <input
+                            v-model="enpass"
                             id="enpass"
                             class="form-control"
                             type="text"
@@ -133,14 +154,46 @@
 export default {
     data() {
         return {
+            errorinregform: [],
+            applicantname: "",
+            applicantemail: "",
+            applicantmob: null,
+            applicantpass: "",
             showloginform: true,
             showregistrationform: false,
+            enno: null,
+            enpass: "",
         };
     },
     methods: {
         changetheform() {
             this.showregistrationform = !this.showregistrationform;
         },
+        reguser() {
+            if (this.applicantname.trim() == "") {
+                this.errorinregform.push("Please enter Applicant name");
+                //alert("Please enter Applicant name");
+            }
+            if (this.applicantemail == "") {
+                this.errorinregform.push("Please enter Email Address");
+            }
+            if (this.applicantmob == "") {
+                this.errorinregform.push("Please enter Mobile Number");
+            }
+            if (this.applicantpass == "") {
+                this.errorinregform.push("Please enter Password");
+            }
+        },
     },
 };
 </script>
+<style>
+.reg-form {
+    padding: 1rem;
+    background-color: bisque;
+}
+.login-form {
+    background-color: bisque;
+    padding: 1rem;
+}
+</style>
