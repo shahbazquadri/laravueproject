@@ -25,13 +25,12 @@
             <div class="reg-form" v-if="showregistrationform">
                 <h3>Register yourself</h3>
                 <form method="get" action="">
-                    <div
-                        class="errorinregform"
-                        v-if="errorinregform.length > 0"
-                    >
+                    <span></span> {{ "Error" + errorinform.length }}
+                    <div class="errorinform" v-if="errorinform.length > 0">
                         <ul>
                             <li
-                                v-for="(error, index) in errorinregform"
+                                class="bg-danger text-light m-2"
+                                v-for="(error, index) in errorinform"
                                 :key="index"
                             >
                                 {{ error }}
@@ -154,10 +153,10 @@
 export default {
     data() {
         return {
-            errorinregform: [],
+            errorinform: [],
             applicantname: "",
             applicantemail: "",
-            applicantmob: null,
+            applicantmob: "",
             applicantpass: "",
             showloginform: true,
             showregistrationform: false,
@@ -170,18 +169,19 @@ export default {
             this.showregistrationform = !this.showregistrationform;
         },
         reguser() {
+            this.errorinform = [];
             if (this.applicantname.trim() == "") {
-                this.errorinregform.push("Please enter Applicant name");
-                //alert("Please enter Applicant name");
+                this.errorinform.push("Please enter Applicant name");
+                // alert("Please enter Applicant name");
             }
-            if (this.applicantemail == "") {
-                this.errorinregform.push("Please enter Email Address");
+            if (this.applicantemail.trim() == "") {
+                this.errorinform.push("Please enter Email Address");
             }
-            if (this.applicantmob == "") {
-                this.errorinregform.push("Please enter Mobile Number");
+            if (this.applicantmob.trim() == "") {
+                this.errorinform.push("Please enter Mobile Number");
             }
-            if (this.applicantpass == "") {
-                this.errorinregform.push("Please enter Password");
+            if (this.applicantpass.trim() == "") {
+                this.errorinform.push("Please enter Password");
             }
         },
     },
