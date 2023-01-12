@@ -9,3 +9,5 @@ import App from "./layouts/App.vue";
 const app = createApp(App);
 app.use(router);
 app.mount("#app");
+
+const test = 123;

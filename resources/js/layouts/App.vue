@@ -14,8 +14,8 @@
                 <button
                     class="navbar-toggler"
                     type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarID"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarID"
                     aria-controls="navbarID"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
@@ -51,3 +51,25 @@
         <div class="col-md-10 main-area"><router-view></router-view></div>
     </div>
 </template>
+<style>
+.np-captcha-container {
+    background: #eee;
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.np-captcha {
+    font-size: 24px;
+}
+.np-button {
+    padding: 6px 10px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.np-captcha-character {
+    display: inline-block;
+    letter-spacing: 14px;
+}
+</style>
