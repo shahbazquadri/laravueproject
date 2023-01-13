@@ -104,6 +104,7 @@
                     ></button>
                 </div>
                 <form method="get" action="">
+                    <input type="text" name="_token" :value="csrf" />
                     <span class="bg-warning" v-if="errorinform.length > 0">{{
                         "Total Error" + errorinform.length
                     }}</span>
@@ -163,7 +164,7 @@
                         />
                     </div>
 
-                    <div class="np-captcha-container">
+                    <div class="np-captcha-container mt-4">
                         <div
                             class="np-captcha"
                             v-if="captcha && captcha.length"
@@ -244,7 +245,39 @@
                             name=""
                         />
                     </div>
-
+                    <div class="np-captcha-container mt-4">
+                        <div
+                            class="np-captcha"
+                            v-if="captcha && captcha.length"
+                        >
+                            <div
+                                v-for="(c, i) in captcha"
+                                :key="i"
+                                :style="{
+                                    fontSize: getFontSize() + 'px',
+                                    fontWeight: 800,
+                                    transform:
+                                        'rotate(' + getRotationAngle() + 'deg)',
+                                }"
+                                class="np-captcha-character"
+                            >
+                                {{ c }}
+                            </div>
+                        </div>
+                    </div>
+                    <button @click.prevent="createCaptcha" class="np-button">
+                        Generate new
+                    </button>
+                    <div class="form-group">
+                        <label for="my-input">Enter Captcha</label>
+                        <input
+                            v-model="enteredCatpcha"
+                            id="enteredCatpcha"
+                            class="form-control"
+                            type="text"
+                            name=""
+                        />
+                    </div>
                     <div>
                         <button
                             type="reset"
@@ -254,6 +287,7 @@
                         </button>
                         <button
                             type="submit"
+                            v-on:click.prevent="login"
                             class="btn btn-primary btn-sm pl-4 pr-4 m-2"
                         >
                             Submit
@@ -269,6 +303,9 @@
     </div>
 </template>
 <script>
+import { shaHashing } from "../myFunction";
+let hash = await shaHashing("asdsadfh");
+console.log(hash);
 export default {
     data() {
         return {
@@ -279,16 +316,20 @@ export default {
             applicantpass: "",
             showloginform: true,
             showregistrationform: false,
-            enno: null,
+            enno: "",
             enpass: "",
             message: "",
             captchaLength: 5,
             captcha: [],
             enteredCatpcha: "",
+            csrf: "",
+            hasedpass: "",
         };
     },
     mounted() {
         this.createCaptcha();
+        this.csrf = window.LaravelToken.csrfToken;
+        // checkmethod();
     },
     methods: {
         changetheform() {
@@ -311,9 +352,11 @@ export default {
                     });
             }
 
-            sha512("my string for hashing").then((x) => console.log(x));
+            //sha512("my string for hashing").then((x) => console.log(x));
+            sha512(this.applicantpass).then((x) => (this.hasedpass = x));
 
             /************END*************/
+
             if (this.applicantname.trim() == "") {
                 this.errorinform.push("Please enter Applicant name");
                 // alert("Please enter Applicant name");
@@ -353,7 +396,7 @@ export default {
                         name: this.applicantname,
                         email: this.applicantemail,
                         mob: this.applicantmob,
-                        pass: this.applicantpass,
+                        pass: this.hasedpass,
                     }),
                 };
                 fetch("http://127.0.0.1:8000/api/addnewuser", reqOptions)
@@ -388,6 +431,20 @@ export default {
         getRotationAngle() {
             const rotationVariations = [5, 5, 5, 5, 5, 5, 5, 5];
             return rotationVariations[Math.floor(Math.random() * 8)];
+        },
+        login() {
+            alert("i am working");
+            const reqOptions = {
+                method: "POST",
+                header: { "content-type": "application/json" },
+
+                body: JSON.stringify({
+                    name: this.applicantname,
+                    email: this.applicantemail,
+                    mob: this.applicantmob,
+                    pass: this.hasedpass,
+                }),
+            };
         },
     },
 };
