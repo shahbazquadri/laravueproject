@@ -3,7 +3,7 @@ import home from "./pages/Home.vue";
 import about from "./pages/About.vue";
 import contact from "./pages/Contact.vue";
 
-const routes = [
+export const routes = [
     {
         path: "/",
         name: "Home",
@@ -24,4 +24,5 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
 export default router;

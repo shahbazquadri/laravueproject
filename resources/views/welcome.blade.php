@@ -18,3 +18,13 @@
 </body>
 
 </html>
+
+<script>
+    var LaravelToken = {
+        'csrfToken': '{{csrf_token()}}'
+    };
+
+    function checkmethod() {
+        alert("Its Working");
+    }
+</script>

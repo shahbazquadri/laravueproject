@@ -1,6 +1,7 @@
 import "./bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
+import crypto from "crypto";
 
 import { createApp } from "vue";
 import router from "./router.js";
